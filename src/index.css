@@ -1,0 +1,180 @@
+@import 'tailwindcss';
+@import 'lenis/dist/lenis.css';
+
+/* ------------------------------------------------------------------ */
+/*  Design tokens                                                      */
+/* ------------------------------------------------------------------ */
+@theme {
+  --font-serif: 'Newsreader Variable', 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Manrope Variable', 'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Warm neutrals */
+  --color-ivory: #f6f2ec;
+  --color-paper: #fbf9f5;
+  --color-sand: #ebe3d7;
+  --color-stone: #d9cfc0;
+  --color-taupe: #8a7d6c;
+  --color-ash: #5f574d;
+
+  /* Inks */
+  --color-ink: #1c1a17;
+  --color-charcoal: #2b2925;
+  --color-graphite: #3a3732;
+
+  /* Bronze accents */
+  --color-bronze: #a8844f;
+  --color-bronze-light: #c9ab7e;
+  --color-bronze-deep: #7a5d36; /* AA on ivory for small text */
+
+  --ease-luxe: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-curtain: cubic-bezier(0.76, 0, 0.24, 1);
+
+  --container-site: 88rem;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Base                                                               */
+/* ------------------------------------------------------------------ */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    @apply bg-ivory font-sans text-ink;
+    font-feature-settings: 'ss01', 'cv11';
+    overflow-x: clip;
+  }
+
+  /* Serif figures: always lining (prices, numbers) */
+  .font-serif,
+  .display,
+  .heading {
+    font-variant-numeric: lining-nums;
+  }
+
+  ::selection {
+    background: var(--color-bronze-light);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-bronze);
+    outline-offset: 3px;
+    border-radius: 1px;
+  }
+
+  img {
+    -webkit-user-drag: none;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Components                                                         */
+/* ------------------------------------------------------------------ */
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-(--container-site) px-5 sm:px-8 lg:px-12;
+  }
+
+  .eyebrow {
+    @apply font-sans text-[0.6875rem] font-semibold tracking-[0.28em] uppercase;
+  }
+
+  .display {
+    @apply font-serif font-light tracking-[-0.025em];
+    line-height: 1;
+  }
+
+  .heading {
+    @apply font-serif font-light tracking-[-0.02em];
+    line-height: 1.08;
+  }
+
+  .lede {
+    @apply text-[1.0625rem] leading-[1.75] text-ash sm:text-lg;
+  }
+
+  /* Underline that draws in from the left on hover */
+  .link-line {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.6s var(--ease-luxe);
+    padding-bottom: 2px;
+  }
+  .link-line:hover,
+  .link-line:focus-visible,
+  .link-line[aria-current='true'] {
+    background-size: 100% 1px;
+  }
+
+  .hairline {
+    @apply h-px w-full bg-ink/12;
+  }
+
+  /* Form fields */
+  .field-input {
+    @apply w-full border-0 border-b border-ink/20 bg-transparent px-0 pt-6 pb-2.5 text-base text-ink transition-colors duration-500 outline-none placeholder:text-transparent focus:border-ink;
+  }
+  .field-input[aria-invalid='true'] {
+    @apply border-red-700;
+  }
+  .field-label {
+    @apply pointer-events-none absolute top-6 left-0 origin-left text-[0.9375rem] text-taupe transition-all duration-500;
+    transition-timing-function: var(--ease-luxe);
+  }
+  .field-input:focus ~ .field-label,
+  .field-input:not(:placeholder-shown) ~ .field-label,
+  .field-select ~ .field-label {
+    @apply top-0 text-[0.6875rem] font-semibold tracking-[0.18em] text-ash uppercase;
+  }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Keyframes                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes kenburns {
+  from {
+    transform: scale(1.12);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes scrollcue {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(200%);
+  }
+}
